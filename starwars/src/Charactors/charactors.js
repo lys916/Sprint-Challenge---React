@@ -2,7 +2,7 @@ import React from 'react';
 import './charactors.css';
 
 function Chars(props) {
-
+	console.log('charactor component renders');
 	return (
 		<div className="char">
 			<div className="char-img">
@@ -23,7 +23,7 @@ function Chars(props) {
 				</div>
 
 				<div className="assets-name">
-					<li onClick={()=>{props.handleAsset('starships')}}>Spaceships</li>
+					<li onClick={()=>{props.handleAsset('starships')}}>Starships</li>
 					<li onClick={()=>{props.handleAsset('vehicles')}}>Vehicles</li>
 					<li onClick={()=>{props.handleAsset('homeworld')}}>Planets</li>
 				</div>

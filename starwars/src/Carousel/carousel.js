@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import './carousel.css';
 
 function Carousel(props) {
-    
+    console.log('carousel component renders');
 
       var settings = {
       dots: true,
@@ -20,7 +20,8 @@ function Carousel(props) {
          {props.chars.map((char)=>{
             return  (
                <div className="carousel" key={char.name}>
-                  <div className="char-img" onClick={()=>{props.handleChar(char.name)}}><img src={`../img/${char.name.replace(/\s+/g, '')}.jpg`} />
+                  <div className="char-img" onClick={()=>{props.handleChar(char.name)}}>
+                    <img src={`../img/${char.name.replace(/\s+/g, '')}.jpg`} />
                   </div>
                   
                </div>
