@@ -1,9 +1,10 @@
 import React from 'react';
 import Slider from 'react-slick';
 import './carousel.css';
+import {Link} from 'react-router-dom';
 
 function Carousel(props) {
-    console.log('carousel component renders');
+  console.log(props.chars);
 
       var settings = {
       dots: true,
@@ -14,17 +15,17 @@ function Carousel(props) {
     }
     return (
       <div className='container'>
-    
-      
+
         <Slider {...settings}>
          {props.chars.map((char)=>{
             return  (
-               <div className="carousel" key={char.name}>
-                  <div className="char-img" onClick={()=>{props.handleChar(char.name)}}>
+              <Link to={ {pathname: `/char/:${char.name}`, char: char }} key={char.name}>
+               <div className="carousel">
+                  <div className="char-img">
                     <img src={`../img/${char.name.replace(/\s+/g, '')}.jpg`} />
                   </div>
-                  
                </div>
+              </Link>
             );
          })}
         </Slider>

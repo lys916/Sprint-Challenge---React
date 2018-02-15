@@ -1,32 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
-import Carousel from './Carousel/carousel';
-import Char from './Charactors/charactors';
-import Assets from './Assets/assets';
-import {Route} from 'react-router-dom';
-
-
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      chars: [],
-      // currentChar: {name: 'Luke Skywalker', starships:[], vehicles:[], planets:[]},
-      // currentAsset: 'starships',
-      // assets: [],
-    };
-  }
-   componentDidMount() {
-
-      fetch('https://swapi.co/api/people')
+export default function(){
+	fetch('https://swapi.co/api/people')
          .then(res => {
             return res.json();
          }).then(data => {
 
-            let state = data.results;
+         let state = data.results;
             // loop through each charactor
             state.forEach((char) => {
-
                // fetch charactor's homeworld
                fetch(char.homeworld)
                   .then(res => {
@@ -64,29 +44,13 @@ class App extends Component {
                      char.films[i] = data;
                   }).catch(err => {throw new Error(err)}); 
                });
-            
-
+            return state;
             });
-               // done looping, assign new state
-               this.setState({ chars: state });
+
+          
 
          }).catch(err => {
             throw new Error(err);
       });
-
-  }
-
-
-  render() {
-    
-    return (
-      <div className="App">
-        <Route path="/" render={ (props)=> <Carousel {...props} chars={this.state.chars} /> } />
-        <Route path="/char/:name" render={ (props)=> <Char {...props} chars={this.state.chars} /> }  />
-        <Route path="/char/:name/:type" component={Assets} />
-      </div>
-    );
-  }
+return 'bla';
 }
-
-export default App;
