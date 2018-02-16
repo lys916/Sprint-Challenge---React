@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import Carousel from './Carousel/carousel';
 import Char from './Charactors/charactors';
@@ -6,16 +6,11 @@ import Assets from './Assets/assets';
 import {Route} from 'react-router-dom';
 
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      chars: [],
-      // currentChar: {name: 'Luke Skywalker', starships:[], vehicles:[], planets:[]},
-      // currentAsset: 'starships',
-      // assets: [],
-    };
-  }
+class App extends React.Component {
+
+
+   state = {chars: [], currentChar: {}, currentAsset: [], assetName: '' };
+
    componentDidMount() {
       console.log('didMount, about to fetch');
       fetch('https://swapi.co/api/people')
@@ -69,8 +64,7 @@ class App extends Component {
             });
                // done looping, assign new state
                this.setState({ chars: state });
-
-               sessionStorage.setItem('chars', JSON.stringify(this.state.chars));
+               console.log(this.state.chars);
 
          }).catch(err => {
             throw new Error(err);
@@ -78,14 +72,27 @@ class App extends Component {
 
   }
 
+  handleChar = (props)=>{
+
+   this.setState({ currentChar: props.char }, ()=>{
+      console.log(props);
+      props.history.push(`/char/${props.char.name}`);
+   });
+  }
+     handleAsset = (props)=>{
+
+   this.setState({ currentAsset: props.asset, assetName: props.assetName }, ()=>{
+      props.history.push(`/char/${this.state.currentChar.name}/${props.assetName}`);
+   });
+}
 
   render() {
     
     return (
       <div className="App">
-        <Route path="/" render={ (props)=> <Carousel {...props} chars={this.state.chars} /> } />
-        <Route path="/char/:name" render={ (props)=> <Char {...props} chars={this.state.chars} /> }  />
-        <Route path="/char/:name/:type" component={Assets} />
+        <Route path="/" render={ (props)=> <Carousel {...props} chars={this.state.chars} handleChar={this.handleChar}/> } />
+        <Route path="/char/:name" render={ (props)=> <Char {...props} char={this.state.currentChar} handleAsset={this.handleAsset} /> }  />
+        <Route path="/char/:name/:type" render={ (props)=> <Assets {...props} assets={this.state.currentAsset} assetName={this.state.assetName}/> }  />
       </div>
     );
   }

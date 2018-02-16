@@ -2,64 +2,80 @@ import React from 'react';
 import './charactors.css';
 import {Link} from 'react-router-dom';
 
-class Chars extends React.Component {
-	state = {char: null};
+function Chars(props) {
 
-	// componentWillReceiveProps handles page refresh or user enter direct url
-	// it waits for parent component to fetch async data then pass it to this functon
-	componentWillReceiveProps(nextProps){
+	let data = {homeworld:[], vehicles:[], starships:[], films:[]};
 
-		let charactor = nextProps.chars.find((char)=>{
-			return char.name === nextProps.match.params.name;
-		});
-			this.setState({char: charactor});
-	}
-
-	// componentWillMount sets the state before componenet gets render
-	componentWillMount(){
-		let charactor = this.props.chars.find((char)=>{
-			return char.name === this.props.match.params.name;
-		});
-			this.setState({char: charactor});
-	}
-
-
-
-	render(){
-		// this if statement returns null and wait for componenentWillReceiveProps to
-		// receive the async data from parents
-		if(!this.state.char){
-			return null;
+	for(let key in props.char){
+		if(key === 'homeworld'){
+			data.homeworld.push(props.char[key]);
 		}
+		if(key === 'vehicles' && props.char.vehicles.length > 0){
+			props.char.vehicles.forEach((veh)=>{
+				data.vehicles.push(veh);
+			});
+		}
+		if(key === 'starships' && props.char.starships.length > 0){
+			props.char.starships.forEach((star)=>{
+				data.starships.push(star);
+			});
+		}
+		if(key === 'films' && props.char.films.length > 0){
+			props.char.films.forEach((film)=>{
+				data.films.push(film);
+			});
+		}
+	};
+
+	let linksUpper = [];
+	let linksLower =[];
+	for(let i in data){
+		if(data[i].length > 0){
+			linksUpper.push(i.charAt(0).toUpperCase() + i.slice(1));
+			linksLower.push(i);
+		}
+	}
+
+	if(props.char.name === undefined){
+		props.history.push('/');
+		return null;
+
+	}
+
 	return (
-		<div className="char">
-			<div className="char-img">
-				<img src={`../img/${this.state.char.name.replace(/\s+/g, '')}.jpg`} />
-			</div>
-
-			<div className="char-info">
-				<div className="name">{this.state.char.name}</div>
-
-				<div className="info">
-					<span>&#9733; Birth Year - {this.state.char.birth_year}</span>
-					<span>&#9733; Eye Color - {this.state.char.eye_color}</span>
-					<span>&#9733; Gender - {this.state.char.gender}</span>
-					<span>&#9733; Hair Color - {this.state.char.hair_color}</span>
-					<span>&#9733; Height - {this.state.char.height}</span>
-					<span>&#9733; Mass - {this.state.char.mass}</span>
-
+		<div>
+			<div className="char">
+				<div className="char-img">
+					<img src={`../img/${props.char.name.replace(/\s+/g, '')}.jpg`} />
 				</div>
-				<div className="assets-name">
-					 <Link to={ {pathname: `/char/:${this.state.char.name}/:starships`, starships: this.state.char.starships }}>
-					 	<li >Starships</li>
-					 </Link>
+
+				<div className="char-info">
+					<div className="name">{props.char.name}</div>
+
+					<div className="info">
+						<span>&#9733; Birth Year - {props.char.birth_year}</span>
+						<span>&#9733; Eye Color - {props.char.eye_color}</span>
+						<span>&#9733; Gender - {props.char.gender}</span>
+						<span>&#9733; Hair Color - {props.char.hair_color}</span>
+						<span>&#9733; Height - {props.char.height}</span>
+						<span>&#9733; Mass - {props.char.mass}</span>
+
+					</div>
+					<div className="assets-box">
+					{linksUpper.map((link, i)=>{
+						return (
+						<div className="assets-title" onClick={()=>{props.handleAsset({asset: data[linksLower[i]], assetName: linksLower[i], history: props.history})}}>
+						 	<li>{link}</li>
+						</div>
+						);
+					})}
+					</div>
 				</div>
 			</div>
 		</div>
 	);
-}
+
 }
 
 export default Chars;
-
 

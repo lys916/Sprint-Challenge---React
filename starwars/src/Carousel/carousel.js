@@ -4,7 +4,6 @@ import './carousel.css';
 import {Link} from 'react-router-dom';
 
 function Carousel(props) {
-  console.log(props.chars);
 
       var settings = {
       dots: true,
@@ -19,13 +18,11 @@ function Carousel(props) {
         <Slider {...settings}>
          {props.chars.map((char)=>{
             return  (
-              <Link to={ {pathname: `/char/${char.name}`, char: char }} key={char.name}>
-               <div className="carousel">
+               <div className="carousel" key={char.name} onClick={()=>{props.handleChar({char, history: props.history})}}>
                   <div className="char-img">
                     <img src={`../img/${char.name.replace(/\s+/g, '')}.jpg`} />
                   </div>
                </div>
-              </Link>
             );
          })}
         </Slider>

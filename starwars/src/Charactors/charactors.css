@@ -43,7 +43,7 @@
 .info span {
 	padding: 5px 15px;
 }
-.char-info .assets-name {
+.assets-box {
 	display: flex;
 	justify-content: space-around;
 	color: #ff5454;
@@ -52,6 +52,6 @@
 	margin-top: 70px;
 }
 
-.assets-name li{
+.assets-title li{
 	list-style: none;
 }
