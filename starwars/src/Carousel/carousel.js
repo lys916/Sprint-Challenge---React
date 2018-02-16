@@ -19,7 +19,7 @@ function Carousel(props) {
         <Slider {...settings}>
          {props.chars.map((char)=>{
             return  (
-              <Link to={ {pathname: `/char/:${char.name}`, char: char }} key={char.name}>
+              <Link to={ {pathname: `/char/${char.name}`, char: char }} key={char.name}>
                <div className="carousel">
                   <div className="char-img">
                     <img src={`../img/${char.name.replace(/\s+/g, '')}.jpg`} />

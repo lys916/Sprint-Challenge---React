@@ -17,7 +17,7 @@ class App extends Component {
     };
   }
    componentDidMount() {
-
+      console.log('didMount, about to fetch');
       fetch('https://swapi.co/api/people')
          .then(res => {
             return res.json();
@@ -69,6 +69,8 @@ class App extends Component {
             });
                // done looping, assign new state
                this.setState({ chars: state });
+
+               sessionStorage.setItem('chars', JSON.stringify(this.state.chars));
 
          }).catch(err => {
             throw new Error(err);
